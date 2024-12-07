@@ -1,0 +1,110 @@
+def add_product():
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    name = input("Enter product name: ")
+    category = input("Enter product category: ")
+    price = float(input("Enter product price: "))
+    quantity = int(input("Enter quantity in stock: "))
+
+    query = "INSERT INTO Products (Name, Category, Price, QuantityInStock) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (name, category, price, quantity))
+    db.commit()
+
+    print("Product added successfully!")
+    db.close()
+
+
+def place_order():
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    customer_id = int(input("Enter customer ID: "))
+    store_id = int(input("Enter store ID: "))
+    total_amount = float(input("Enter total amount: "))
+    order_date = input("Enter order date (YYYY-MM-DD): ")
+
+    query = "INSERT INTO Orders (CustomerID, StoreID, OrderDate, TotalAmount) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (customer_id, store_id, order_date, total_amount))
+    db.commit()
+
+    print("Order placed successfully!")
+    db.close()
+
+def update_stock():
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    product_id = int(input("Enter product ID to update: "))
+    new_quantity = int(input("Enter new quantity in stock: "))
+
+    query = "UPDATE Products SET QuantityInStock = %s WHERE ProductID = %s"
+    cursor.execute(query, (new_quantity, product_id))
+    db.commit()
+
+    print("Stock updated successfully!")
+    db.close()
+
+def view_store_sales():
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    query = """
+    SELECT s.Location, SUM(o.TotalAmount) AS TotalSales 
+    FROM Stores s 
+    JOIN Orders o ON s.StoreID = o.StoreID 
+    GROUP BY s.StoreID
+    """
+    cursor.execute(query)
+    results = cursor.fetchall()
+
+    for row in results:
+        print(f"Store: {row[0]}, Total Sales: ${row[1]:.2f}")
+
+    db.close()
+
+def assign_employee():
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    employee_id = int(input("Enter employee ID: "))
+    store_id = int(input("Enter store ID to assign: "))
+
+    query = "UPDATE Employees SET StoreID = %s WHERE EmployeeID = %s"
+    cursor.execute(query, (store_id, employee_id))
+    db.commit()
+
+    print("Employee assigned successfully!")
+    db.close()
+
+def main():
+    while True:
+        print("\n--- Home Depot Management System ---")
+        print("1. Add a new product")
+        print("2. Place an order")
+        print("3. Update stock")
+        print("4. View store sales")
+        print("5. Assign employee to store")
+        print("6. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            add_product()
+        elif choice == '2':
+            place_order()
+        elif choice == '3':
+            update_stock()
+        elif choice == '4':
+            view_store_sales()
+        elif choice == '5':
+            assign_employee()
+        elif choice == '6':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice! Please try again.")
+
+if __name__ == "__main__":
+    main()
+

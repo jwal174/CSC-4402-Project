@@ -1,0 +1,29 @@
+INSERT INTO Stores (Location, ManagerID) VALUES 
+('Atlanta, GA', 1), 
+('Dallas, TX', 2);
+
+INSERT INTO Employees (Name, Role, Salary, StoreID) VALUES 
+('Alice Johnson', 'Manager', 80000, 1), 
+('Bob Smith', 'Manager', 75000, 2);
+
+INSERT INTO Products (Name, Category, Price, QuantityInStock) VALUES 
+('Hammer', 'Tools', 15.99, 100),
+('Drill', 'Tools', 49.99, 50),
+('Screwdriver', 'Tools', 5.99, 200);
+
+INSERT INTO Customers (Name, Email, Phone) VALUES 
+('John Doe', 'john@example.com', '555-1234'),
+('Jane Smith', 'jane@example.com', '555-5678');
+
+INSERT INTO Orders (CustomerID, StoreID, OrderDate, TotalAmount) VALUES 
+(1, 1, '2024-12-01', 31.98),
+(2, 2, '2024-12-02', 49.99);
+
+INSERT INTO Suppliers (Name, ContactInfo) VALUES 
+('ToolSupplier Inc.', 'contact@toolsupplier.com'),
+('HardwareCo', 'info@hardwareco.com');
+
+INSERT INTO ProductSupplier (ProductID, SupplierID) VALUES 
+(1, 1),
+(2, 2),
+(3, 1);
